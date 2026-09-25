@@ -92,8 +92,8 @@ def evaluate_session(session_years: List[int], llm_client, model_name: str,
             continue
 
         if debug:
-            print(f"Debug mode: limiting to first 10 bills")
-            bills = bills[:10]
+            print(f"Debug mode: limiting to first 1 bill")
+            bills = bills[:1]
 
         print(f"Loaded {len(bills)} bills from {year}rs/frontend_data.json")
 
@@ -300,7 +300,7 @@ def main():
                        help='Session years to evaluate')
     parser.add_argument('--model-family', default='gemini', choices=['gemini', 'gpt', 'ollama'])
     parser.add_argument('--model', default='gemini-3.8-flash')
-    parser.add_argument('--debug', action='store_true', help='Limit to first 10 bills per session')
+    parser.add_argument('--debug', action='store_true', help='Limit to first 1 bill per session')
     parser.add_argument('--output-json', default=None, help='Output JSON path (default: evaluation/results/evaluation-YYYYMMDD-{model}.json)')
     parser.add_argument('--output-excel', default=None, help='Output Excel path (default: evaluation/results/evaluation-YYYYMMDD-{model}.xlsx)')
     args = parser.parse_args()
@@ -310,7 +310,7 @@ def main():
     os.makedirs(output_dir, exist_ok=True)
 
     # Generate timestamped filenames if not specified
-    timestamp = datetime.now().strftime('%Y%m%d')
+    timestamp = datetime.now().strftime('%Y%m%d-%H%M')
     model_tag = args.model_family  # Use model family (gemini, gpt, ollama) as tag
 
     if args.output_json is None:
